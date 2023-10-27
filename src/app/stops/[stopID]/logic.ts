@@ -1,10 +1,13 @@
+import moment from "moment-timezone";
+
 export const timestampToTime = (timestamp: number | null) => {
   if (timestamp == null) return null;
-  const date = new Date(timestamp);
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours < 12 ? "AM" : "PM"; // Convert hours to 12-hour format
-  const formattedHours = hours % 12 || 12;
+  const denverTime = moment(timestamp * 1000).tz("America/Denver"); // Create a moment-timezone object for the timestamp in the Denver time zone
+  const hours = denverTime.hours();
+  const minutes = denverTime.minutes();
+  const ampm = hours < 12 ? "AM" : "PM"; // Determine whether it's AM or PM
+  const formattedHours = hours % 12 || 12; // Convert hours to 12-hour format
+  // Format the time
   const formattedTime = `${formattedHours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")} ${ampm}`;
