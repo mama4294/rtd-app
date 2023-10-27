@@ -54,8 +54,6 @@ const Dropdown = ({
 
   let selectedValue = searchParams.get(name); // Get the selected value from URL
 
-  console.log("selectedValue: ", selectedValue);
-
   if (!selectedValue) {
     selectedValue = options[0];
   }

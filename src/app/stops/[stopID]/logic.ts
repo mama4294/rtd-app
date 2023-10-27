@@ -2,7 +2,7 @@ import moment from "moment-timezone";
 
 export const timestampToTime = (timestamp: number | null) => {
   if (timestamp == null) return null;
-  const denverTime = moment(timestamp * 1000).tz("America/Denver"); // Create a moment-timezone object for the timestamp in the Denver time zone
+  const denverTime = moment(timestamp).tz("America/Denver"); // Create a moment-timezone object for the timestamp in the Denver time zone
   const hours = denverTime.hours();
   const minutes = denverTime.minutes();
   const ampm = hours < 12 ? "AM" : "PM"; // Determine whether it's AM or PM
@@ -36,7 +36,8 @@ export const calculateMinutesRemaining = (time: number | null) => {
   const timeRemaining = time - currentTime;
 
   // Convert milliseconds to minutes and seconds
-  const minutesRemaining = Math.floor(timeRemaining / 60000); // 1 minute = 60,000 milliseconds
+  let minutesRemaining = Math.floor(timeRemaining / 60000); // 1 minute = 60,000 milliseconds
+  if (minutesRemaining < 0) minutesRemaining = 0; //cannot be less than 0
 
   return minutesRemaining;
 };
@@ -69,3 +70,17 @@ export const getOrdinalString = (number: number): string => {
 
   return string;
 };
+
+export function convertToFriendlyFormat(timestamp: number) {
+  const now = moment();
+  const targetDate = moment(timestamp);
+  const diffInDays = targetDate.diff(now, "days");
+
+  if (diffInDays === 0) {
+    return "Today";
+  } else if (diffInDays === 1) {
+    return "Tomorrow";
+  } else {
+    return targetDate.format("MMM DD"); // You can adjust the date format as needed
+  }
+}
