@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="text-black dark:text-white">
       {/* <nav>I am the navbar</nav> */}
-      <body className=" min-h-screen px-24">
+      <body className=" min-h-screen lg:px-24 px-6">
         <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex flex-col">
           <Link
             href="/"
