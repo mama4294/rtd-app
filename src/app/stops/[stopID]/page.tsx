@@ -3,9 +3,9 @@ import Selectors from "./selectors";
 import RouteDetails from "./routeDetails";
 
 async function getStopDetails(stopID: string) {
-  const url = `https://www.rtd-denver.com/api/v2/nextride/stops/${stopID}`;
+  const url = `https://rtdnodeprod.prod.acquia-sites.com/api/v2/nextride/stops/${stopID}`;
   const headers = new Headers({
-    authority: "www.rtd-denver.com",
+    authority: "rtdnodeprod.prod.acquia-sites.com",
     accept: "*/*",
     "accept-language": "en-US,en;q=0.9",
     "api-key": "e7b926a1-cddb-46e7-bb27-6d134e5b5feb",
