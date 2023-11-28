@@ -7,9 +7,9 @@ import { useEffect } from "react";
 
 const directions = [
   { name: "Northbound", icon: <ArrowUp /> },
-  { name: "Eastbound", icon: <ArrowLeft /> },
+  { name: "Eastbound", icon: <ArrowRight /> },
   { name: "Southbound", icon: <ArrowDown /> },
-  { name: "Westbound", icon: <ArrowRight /> },
+  { name: "Westbound", icon: <ArrowLeft /> },
 ];
 
 const Selectors = ({

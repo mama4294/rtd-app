@@ -43,6 +43,8 @@ export default async function Page({
     );
   });
 
+  console.log("rawData", rawData);
+
   return (
     <>
       <p className="text-2xl font-semibold mb-4">{rawData.name}</p>
