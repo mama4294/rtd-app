@@ -1,19 +1,5 @@
+import stops from "@/constants/Stops";
 import Link from "next/link";
-
-const stops = [
-  {
-    name: "I-25 / Broadway Station",
-    id: 33686,
-  },
-  {
-    name: "Union Station",
-    id: 33727,
-  },
-  {
-    name: "Denver Airport",
-    id: 34503,
-  },
-];
 
 export default function Page() {
   return (
