@@ -1,32 +1,8 @@
 import { Branch, StopDetails, Trip } from "@/app/types";
 import Selectors from "./selectors";
 import RouteDetails from "./routeDetails";
+import { getStopDetails } from "@/lib/ApiRequests";
 
-async function getStopDetails(stopID: string) {
-  const url = `https://rtdnodeprod.prod.acquia-sites.com/api/v2/nextride/stops/${stopID}`;
-  const headers = new Headers({
-    authority: "rtdnodeprod.prod.acquia-sites.com",
-    accept: "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "api-key": "e7b926a1-cddb-46e7-bb27-6d134e5b5feb",
-    dnt: "1",
-    "if-none-match": 'W/"9c5-oXAWjEx6QWwhR6cnavtSTc3zKwQ"',
-    origin: "https://app.rtd-denver.com",
-    referer: "https://app.rtd-denver.com/",
-  });
-
-  const request = new Request(url, {
-    method: "GET",
-    headers: headers,
-  });
-
-  const res = await fetch(request, { next: { revalidate: 60 } });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
 export default async function Page({
   params,
   searchParams,
@@ -38,7 +14,29 @@ export default async function Page({
   const selectedRouteID = searchParams.id || "E";
   const selectedRouteDirection = searchParams.directionName || "Northbound";
 
-  const Route = rawData.branches.find((branch) => {
+  const getUniqueBranchIds = () => {
+    const uniqueIdsSet = new Set(); //uses set to remove duplicates
+    rawData.branches.forEach((branch: Branch) => {
+      if (branch.mode === "RAIL") {
+        uniqueIdsSet.add(branch.id);
+      }
+    });
+    const uniqueBranchIds = Array.from(uniqueIdsSet) as string[]; //changes set back into an array
+    return uniqueBranchIds;
+  };
+
+  const getPossibleDirectionByLine = () => {
+    const uniqueDirectionsSet = new Set(); //uses set to remove duplicates
+    rawData.branches.forEach((branch: Branch) => {
+      if (branch.mode === "RAIL" && branch.id === selectedRouteID) {
+        uniqueDirectionsSet.add(branch.directionName);
+      }
+    });
+    const uniqueDirections = Array.from(uniqueDirectionsSet) as string[]; //changes set back into an array
+    return uniqueDirections;
+  };
+
+  const selectedRoute = rawData.branches.find((branch) => {
     return (
       branch.id === selectedRouteID &&
       branch.directionName === selectedRouteDirection
@@ -48,10 +46,13 @@ export default async function Page({
   return (
     <>
       <p className="text-2xl font-semibold mb-4">{rawData.name}</p>
-      <Selectors />
+      <Selectors
+        lines={getUniqueBranchIds()}
+        possibleDirections={getPossibleDirectionByLine()}
+      />
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left lg:justify-between gap-4">
-        {Route && <RouteDetails props={Route} />}
+        {selectedRoute && <RouteDetails props={selectedRoute} />}
       </div>
     </>
   );

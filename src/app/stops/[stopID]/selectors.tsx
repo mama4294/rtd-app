@@ -1,82 +1,188 @@
 "use client";
 
+import { Branch } from "@/app/types";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent } from "react";
+import { useEffect } from "react";
 
-const Selectors = () => {
+const directions = [
+  { name: "Northbound", icon: <ArrowUp /> },
+  { name: "Eastbound", icon: <ArrowLeft /> },
+  { name: "Southbound", icon: <ArrowDown /> },
+  { name: "Westbound", icon: <ArrowRight /> },
+];
+
+const Selectors = ({
+  lines,
+  possibleDirections,
+}: {
+  lines: string[];
+  possibleDirections: string[];
+}) => {
+  const router = useRouter();
+  const searchParams = useSearchParams()!;
+  const pathname = usePathname();
+  const selectedDirection = searchParams.get("directionName");
+  const selectedLine = searchParams.get("id");
+
+  console.log("Possible Directions: ", possibleDirections);
+  console.log(
+    "Acceptable Direction? ",
+    possibleDirections.includes(selectedDirection!)
+  );
+
+  useEffect(() => {
+    function fixSearchParams() {
+      //if no line is selected, select the first line in the list and add to url
+      if (!selectedLine && lines.length > 0) {
+        const firstLine = lines[0];
+        const currentParams = new URLSearchParams(
+          Array.from(searchParams.entries())
+        );
+        currentParams.set("id", firstLine);
+        const search = currentParams.toString();
+        const query = search ? `?${search}` : "";
+        router.replace(`${pathname}${query}`);
+      }
+
+      //if the selected direction is not one of the possible directions, select the first direction in the list
+      if (
+        !selectedDirection ||
+        !possibleDirections.includes(selectedDirection)
+      ) {
+        const currentParams = new URLSearchParams(
+          Array.from(searchParams.entries())
+        );
+        currentParams.set("directionName", possibleDirections[0]);
+        const search = currentParams.toString();
+        const query = search ? `?${search}` : "";
+        router.replace(`${pathname}${query}`);
+      }
+    }
+
+    fixSearchParams();
+  }, [selectedLine, lines]);
+
   return (
-    <div className="mb-8 flex justify-between gap-2">
-      <Dropdown label="Line" name="id" options={["E", "D", "H"]} />
-      <Dropdown
-        label="Direction"
-        name="directionName"
-        options={["Northbound", "Southbound"]}
-      />
+    <div>
+      <label
+        htmlFor="line-selector"
+        className="block text-sm font-medium mb-2 dark:text-white"
+      >
+        Line
+      </label>
+      <div id="line-selector" className="mb-8 grid gap-2 grid-cols-4">
+        {lines.map((line) => (
+          <LineSelector
+            key={line}
+            line={line}
+            selected={selectedLine == line}
+          />
+        ))}
+      </div>
+
+      <label
+        htmlFor="direction-selector"
+        className="block text-sm font-medium mb-2 dark:text-white"
+      >
+        Direction
+      </label>
+      <div id="direction-selector" className="mb-8 grid grid-cols-2 gap-2">
+        {directions.map((direction) => (
+          <DirectionSelector
+            key={direction.name}
+            icon={direction.icon}
+            direction={direction.name}
+            selected={selectedDirection == direction.name}
+            disabled={!possibleDirections.includes(direction.name)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
 export default Selectors;
 
-const Dropdown = ({
-  label,
-  options,
-  name,
+const LineSelector = ({
+  line,
+  selected,
 }: {
-  label: string;
-  name: string;
-  options: string[];
+  line: string;
+  selected: boolean;
 }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
 
-  const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+  const onClick = () => {
     const currentParams = new URLSearchParams(
       Array.from(searchParams.entries())
     );
-    // update as necessary
-    const value = event.target.value.trim();
-
-    if (!value) {
-      currentParams.delete(event.target.name);
-    } else {
-      currentParams.set(event.target.name, event.target.value);
-    }
-
+    currentParams.set("id", line);
     // cast to string
     const search = currentParams.toString();
     // or const query = `${'?'.repeat(search.length && 1)}${search}`;
     const query = search ? `?${search}` : "";
-
-    router.push(`${pathname}${query}`);
+    router.replace(`${pathname}${query}`);
   };
 
-  let selectedValue = searchParams.get(name); // Get the selected value from URL
+  return (
+    <button
+      onClick={onClick}
+      name={line}
+      className={`py-3 px-4 w-full border flex justify-center items-center transition-colors  rounded-md text-sm dark:text-gray-400 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-slate-700 ${
+        selected
+          ? "dark:border-gray-100 border-gray-400"
+          : "border-gray-300 dark:border-gray-700"
+      }`}
+    >
+      {line}
+    </button>
+  );
+};
 
-  if (!selectedValue) {
-    selectedValue = options[0];
-  }
+const DirectionSelector = ({
+  direction,
+  selected,
+  icon,
+  disabled,
+}: {
+  direction: string;
+  selected: boolean;
+  icon: JSX.Element;
+  disabled: boolean;
+}) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams()!;
+
+  const onClick = () => {
+    const currentParams = new URLSearchParams(
+      Array.from(searchParams.entries())
+    );
+    currentParams.set("directionName", direction);
+    // cast to string
+    const search = currentParams.toString();
+    // or const query = `${'?'.repeat(search.length && 1)}${search}`;
+    const query = search ? `?${search}` : "";
+    router.replace(`${pathname}${query}`);
+  };
 
   return (
-    <div className="mb-2 flex-1">
-      <label
-        htmlFor="select-1"
-        className="block text-sm font-medium mb-2 dark:text-white"
-      >
-        {label}
-      </label>
-      <select
-        id="select-1"
-        className="py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-        onChange={onSelect}
-        name={name}
-        value={selectedValue}
-      >
-        {options.map((option: string) => {
-          return <option key={option}>{option}</option>;
-        })}
-      </select>
-    </div>
+    <button
+      onClick={onClick}
+      name={direction}
+      disabled={disabled}
+      className={`py-3 px-4 w-full border flex justify-center items-center transition-colors disabled:text-opacity-50 disabled:cursor-not-allowed rounded-md text-sm  dark:text-gray-400 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-slate-700 ${
+        selected
+          ? "dark:border-gray-100 border-gray-400"
+          : "border-gray-300 dark:border-gray-700"
+      }
+      `}
+    >
+      <span className="pr-2">{icon}</span>
+      {direction}
+    </button>
   );
 };
