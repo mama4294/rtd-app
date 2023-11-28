@@ -28,7 +28,11 @@ export default async function Page({
   const getPossibleDirectionByLine = () => {
     const uniqueDirectionsSet = new Set(); //uses set to remove duplicates
     rawData.branches.forEach((branch: Branch) => {
-      if (branch.mode === "RAIL" && branch.id === selectedRouteID) {
+      if (
+        branch.mode === "RAIL" &&
+        branch.id === selectedRouteID &&
+        !branch.dropoffOnly
+      ) {
         uniqueDirectionsSet.add(branch.directionName);
       }
     });
