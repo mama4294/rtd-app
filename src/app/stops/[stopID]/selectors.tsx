@@ -30,9 +30,27 @@ const Selectors = ({
     "Acceptable Direction? ",
     possibleDirections.includes(selectedDirection!)
   );
+  console.log("Lines: ", lines);
 
   useEffect(() => {
-    function fixSearchParams() {
+    function fixDirectionIfNotValid() {
+      //if the selected direction is not one of the possible directions, select the first direction in the list
+      if (!possibleDirections.includes(selectedDirection!)) {
+        const currentParams = new URLSearchParams(
+          Array.from(searchParams.entries())
+        );
+        currentParams.set("directionName", possibleDirections[0]);
+        const search = currentParams.toString();
+        const query = search ? `?${search}` : "";
+        router.replace(`${pathname}${query}`);
+      }
+    }
+
+    fixDirectionIfNotValid();
+  }, [possibleDirections, selectedDirection, searchParams, pathname, router]);
+
+  useEffect(() => {
+    function addLineIdIfNotSelected() {
       //if no line is selected, select the first line in the list and add to url
       if (!selectedLine && lines.length > 0) {
         const firstLine = lines[0];
@@ -44,24 +62,10 @@ const Selectors = ({
         const query = search ? `?${search}` : "";
         router.replace(`${pathname}${query}`);
       }
-
-      //if the selected direction is not one of the possible directions, select the first direction in the list
-      if (
-        !selectedDirection ||
-        !possibleDirections.includes(selectedDirection)
-      ) {
-        const currentParams = new URLSearchParams(
-          Array.from(searchParams.entries())
-        );
-        currentParams.set("directionName", possibleDirections[0]);
-        const search = currentParams.toString();
-        const query = search ? `?${search}` : "";
-        router.replace(`${pathname}${query}`);
-      }
     }
 
-    fixSearchParams();
-  }, [selectedLine, lines]);
+    addLineIdIfNotSelected();
+  }, [selectedLine, lines, searchParams, pathname, router]);
 
   return (
     <div>

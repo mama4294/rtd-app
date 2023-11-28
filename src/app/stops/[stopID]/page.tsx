@@ -11,8 +11,8 @@ export default async function Page({
   searchParams: { [key: string]: string };
 }) {
   const rawData: StopDetails = await getStopDetails(params.stopID);
-  const selectedRouteID = searchParams.id || "E";
-  const selectedRouteDirection = searchParams.directionName || "Northbound";
+  const selectedRouteID = searchParams.id;
+  const selectedRouteDirection = searchParams.directionName;
 
   const getUniqueBranchIds = () => {
     const uniqueIdsSet = new Set(); //uses set to remove duplicates
