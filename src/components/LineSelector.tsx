@@ -134,9 +134,9 @@ const LineSelector = ({
     <button
       onClick={onClick}
       name={line}
-      className={`py-3 px-4 w-full border flex justify-center items-center transition-colors  rounded-md text-sm dark:text-gray-400 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-slate-700 ${
+      className={`py-3 px-4 w-full border flex justify-center items-center transition-colors  rounded-md text-sm dark:text-gray-400  hover:bg-gray-100  hover:dark:bg-slate-700 ${
         selected
-          ? "dark:border-gray-100 border-gray-400"
+          ? "dark:border-gray-100 border-gray-500"
           : "border-gray-300 dark:border-gray-700"
       }`}
     >
@@ -177,9 +177,9 @@ const DirectionSelector = ({
       onClick={onClick}
       name={direction}
       disabled={disabled}
-      className={`py-3 px-4 w-full border flex justify-center items-center transition-colors disabled:text-opacity-50 disabled:cursor-not-allowed rounded-md text-sm  dark:text-gray-400 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-slate-700 ${
+      className={`py-3 px-4 w-full border flex justify-center disabled:hover:bg-transparent items-center transition-colors disabled:text-gray-400 disabled:dark:text-gray-600 disabled:cursor-not-allowed rounded-md text-sm dark:text-gray-400 hover:bg-gray-100 hover:dark:bg-slate-700 ${
         selected
-          ? "dark:border-gray-100 border-gray-400"
+          ? "dark:border-gray-100 border-gray-500"
           : "border-gray-300 dark:border-gray-700"
       }
       `}
