@@ -1,6 +1,6 @@
 import { Branch, StopDetails, Trip } from "@/app/types";
-import Selectors from "./selectors";
-import RouteDetails from "./routeDetails";
+import Selectors from "../../../components/LineSelector";
+import RouteDetails from "../../../components/routeDetails";
 import { getStopDetails } from "@/lib/ApiRequests";
 
 export default async function Page({

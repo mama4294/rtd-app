@@ -5,7 +5,7 @@ import {
   convertToFriendlyFormat,
   getOrdinalString,
   timestampToTime,
-} from "./logic";
+} from "../lib/TimeConversions";
 
 const Trip = ({ props, index }: { props: Trip; index: number }) => {
   const { scheduledArrivalTime, predictedArrivalTime } = props;

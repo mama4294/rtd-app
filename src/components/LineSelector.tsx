@@ -1,6 +1,5 @@
 "use client";
 
-import { Branch } from "@/app/types";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";

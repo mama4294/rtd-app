@@ -1,5 +1,5 @@
 import { Branch, Trip } from "@/app/types";
-import TripDetails from "./trip";
+import TripDetails from "./TripCard";
 
 const RouteDetails = ({ props }: { props: Branch | undefined }) => {
   if (props == undefined) return <LoadingPage />;
