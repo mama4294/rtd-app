@@ -51,7 +51,7 @@ function StationFilter() {
       <div className="mb-32 grid text-left lg:w-full lg:mb-0 lg:text-left gap-2">
         {filteredStops.map((stop) => (
           <Link
-            href={`/stops/${stop.id}`}
+            href={`/${stop.id}`}
             key={stop.id}
             className="group rounded-lg bg-transparent border border-slate-900  dark:border-gray-300 px-5 py-4 transition-colors hover:bg-gray-100 hover:dark:bg-slate-600"
           >
