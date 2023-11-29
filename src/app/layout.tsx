@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Header from "@/components/Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,15 +20,8 @@ export default function RootLayout({
     <html lang="en" className="text-black dark:text-white">
       {/* <nav>I am the navbar</nav> */}
       <body className=" min-h-screen lg:px-24 px-6">
-        <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex flex-col">
-          <Link
-            href="/"
-            className="text-2xl font-semibold my-12 rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          >
-            RTD Tracker
-          </Link>
-          {children}
-        </div>
+        <Header />
+        {children}
       </body>
       {/* <footer>I am the footer</footer> */}
     </html>
