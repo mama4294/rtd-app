@@ -3,7 +3,7 @@ import React from "react";
 
 function Header() {
   return (
-    <header className="sticky top-0 z-50 my-4 flex justify-center">
+    <header className="top-0 z-50 my-4 flex justify-center">
       <Link
         href="/"
         prefetch={false}
