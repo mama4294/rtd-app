@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <h2 className="text-2xl font-semibold mb-4">Stations</h2>
-      <div className="mb-32 grid text-left lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left lg:justify-between gap-4">
+      <div className="mb-32 grid text-left lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left gap-4">
         {stops.map((stop) => (
           <Link
             href={`/stops/${stop.id}`}

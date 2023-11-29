@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="text-black dark:text-white">
       {/* <nav>I am the navbar</nav> */}
-      <body className=" min-h-screen lg:px-24 px-6">
+      <body className="flex flex-col min-h-screen lg:px-24 px-6">
         <Header />
-        {children}
+        <div className="flex-1 flex justify-center">{children}</div>
       </body>
       {/* <footer>I am the footer</footer> */}
     </html>

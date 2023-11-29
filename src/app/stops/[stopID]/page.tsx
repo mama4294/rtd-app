@@ -47,8 +47,6 @@ export default async function Page({
     );
   });
 
-  console.log("rawData", rawData);
-
   return (
     <>
       <p className="text-2xl font-semibold mb-4">{rawData.name}</p>
@@ -58,7 +56,7 @@ export default async function Page({
       />
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left lg:justify-between gap-4">
-        {selectedRoute && <RouteDetails props={selectedRoute} />}
+        {<RouteDetails props={selectedRoute} />}
       </div>
     </>
   );

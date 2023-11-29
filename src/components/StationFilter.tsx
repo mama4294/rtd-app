@@ -48,7 +48,7 @@ function StationFilter() {
           )}
         </div>
       </div>
-      <div className="mb-32 grid text-left lg:w-full lg:mb-0 lg:text-left lg:justify-between gap-2">
+      <div className="mb-32 grid text-left lg:w-full lg:mb-0 lg:text-left gap-2">
         {filteredStops.map((stop) => (
           <Link
             href={`/stops/${stop.id}`}
