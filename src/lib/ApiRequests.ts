@@ -1,7 +1,7 @@
 export async function getStopDetails(stopID: string) {
-  const url = `https://rtdnodeprod.prod.acquia-sites.com/api/v2/nextride/stops/${stopID}`;
+  const url = `https://nodejs-prod.rtd-denver.com/api/v2/nextride/stops/${stopID}`;
   const headers = new Headers({
-    authority: "rtdnodeprod.prod.acquia-sites.com",
+    authority: "nodejs-prod.rtd-denver.com",
     accept: "*/*",
     "accept-language": "en-US,en;q=0.9",
     "api-key": "e7b926a1-cddb-46e7-bb27-6d134e5b5feb",

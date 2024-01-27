@@ -13,7 +13,6 @@ export default async function Page({
   const rawData: StopDetails = await getStopDetails(params.stopID);
   const selectedRouteID = searchParams.id;
   const selectedRouteDirection = searchParams.directionName;
-
   const getUniqueBranchIds = () => {
     const uniqueIdsSet = new Set(); //uses set to remove duplicates
     rawData.branches.forEach((branch: Branch) => {

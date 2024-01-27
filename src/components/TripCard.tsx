@@ -19,6 +19,7 @@ const Trip = ({ props, index }: { props: Trip; index: number }) => {
   const ordinal = getOrdinalString(index + 1); //1st trip, 2nd trip etc
   const isSoon = minutesRemaining && minutesRemaining < 60;
   const friendlyDay = convertToFriendlyFormat(arrivalTime);
+  const isCancelled = props.tripStatus == "CANCELLED";
 
   return (
     <div className="group rounded-lg border border-transparent px-5 py-4 transition-colorsborder-gray-300 bg-gray-300/30 dark:border-neutral-700 dark:bg-neutral-800/30">
@@ -35,6 +36,7 @@ const Trip = ({ props, index }: { props: Trip; index: number }) => {
             : `${Math.abs(delayMinutes)} min early`}
         </p>
       )}
+      {isCancelled && <p className="text-red-500">CANCELLED</p>}
     </div>
   );
 };
